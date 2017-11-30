@@ -1,10 +1,10 @@
-#2D Matrix Grid
+# 2D Matrix Grid
 
 Grid that shows the count of artifacts where the field matches the displayed values for the selected fields on the X and Y Axis.  
 
 ![ScreenShot](/images/2d-matrix-grid.png)
 
-###App Configuration
+### App Configuration
 App Settings include:
 * Model Name - the model type that the matrix will count items for.
 * X Axis Field - The field who's allowed values to display along the (top) horizontal axis of the grid
@@ -68,7 +68,7 @@ to get set up to develop:
     }
   
 ### Usage of the grunt file
-####Tasks
+#### Tasks
     
 ##### grunt debug
 
