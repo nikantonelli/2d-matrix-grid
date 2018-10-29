@@ -39,6 +39,21 @@ Ext.define("2d-matrix-grid", {
     totalText: 'Total',
 
     launch: function() {
+        var settings = this.getSettings();
+        Rally.data.ModelFactory.getModel({
+            type: settings.modelName,
+        }).then({
+            success: function(model) {
+                this.model = model;
+                this._createPivotedStore(this.getSettings());
+            },
+            scope: this
+        });
+    },
+
+    onTimeboxScopeChange: function(newTimeboxScope) {
+        this.callParent(arguments);
+
         this._createPivotedStore(this.getSettings());
     },
 
@@ -59,7 +74,7 @@ Ext.define("2d-matrix-grid", {
            includeNone: this.getSetting('includeBlanks'),
            includeXTotal: this.getSetting('includeXTotal'),
            includeYTotal: this.getSetting('includeYTotal'),
-           gridFilter: this.getSetting('gridFilter'),
+           gridFilter: this._getGridFilter(),
            totalText: this.totalText,
             sortBy: this.getSetting('sortBy'),
             sortDir: this.getSetting('sortDir'),
@@ -68,6 +83,22 @@ Ext.define("2d-matrix-grid", {
         psf.on('load', this._addGrid, this);
         psf.on('error', this._showError, this);
         psf.loadPivotedDataStore();
+    },
+    _getGridFilter: function() {
+        var settingsFilterText = this.getSetting('gridFilter'),
+            timeboxScope = this.getContext().getTimeboxScope(),
+            settingsFilter, filters = [];
+        try {
+            settingsFilter = Rally.data.wsapi.Filter.fromQueryString(settingsFilterText);
+            filters = [settingsFilter];
+        } catch (e) {
+            //ok
+        }
+        
+        if (timeboxScope && timeboxScope.isApplicable(this.model)) {
+            filters.push(timeboxScope.getQueryFilter());
+        }
+        return _.compact(filters);
     },
     _showError: function(errorMsg){
         this.logger.log('_showError', errorMsg);
@@ -163,21 +194,6 @@ Ext.define("2d-matrix-grid", {
         this.logger.log('_getColumns', cols);
         return cols;
     },
-    getOptions: function() {
-        return [
-            {
-                text: 'About...',
-                handler: this._launchInfo,
-                scope: this
-            }
-        ];
-    },
-
-    _launchInfo: function() {
-        if ( this.about_dialog ) { this.about_dialog.destroy(); }
-        this.about_dialog = Ext.create('Rally.technicalservices.InfoLink',{});
-    },
-
     isExternal: function(){
         return typeof(this.getAppId()) == 'undefined';
     },

@@ -163,9 +163,10 @@ Ext.define('Rally.technicalservices.Logger',{
         output_args = Ext.Array.push(output_args,[timestamp]);
         output_args = Ext.Array.push(output_args, Ext.Array.slice(arguments,0));
 
-        window.console && console.log.apply(console,output_args);
+        if(window.console) {
+            console.log.apply(console,output_args);
+        }
     }
-
 });
 
                 Ext.define("2d-matrix-grid", {
@@ -209,6 +210,21 @@ Ext.define('Rally.technicalservices.Logger',{
     totalText: 'Total',
 
     launch: function() {
+        var settings = this.getSettings();
+        Rally.data.ModelFactory.getModel({
+            type: settings.modelName,
+        }).then({
+            success: function(model) {
+                this.model = model;
+                this._createPivotedStore(this.getSettings());
+            },
+            scope: this
+        });
+    },
+
+    onTimeboxScopeChange: function(newTimeboxScope) {
+        this.callParent(arguments);
+
         this._createPivotedStore(this.getSettings());
     },
 
@@ -229,7 +245,7 @@ Ext.define('Rally.technicalservices.Logger',{
            includeNone: this.getSetting('includeBlanks'),
            includeXTotal: this.getSetting('includeXTotal'),
            includeYTotal: this.getSetting('includeYTotal'),
-           gridFilter: this.getSetting('gridFilter'),
+           gridFilter: this._getGridFilter(),
            totalText: this.totalText,
             sortBy: this.getSetting('sortBy'),
             sortDir: this.getSetting('sortDir'),
@@ -238,6 +254,22 @@ Ext.define('Rally.technicalservices.Logger',{
         psf.on('load', this._addGrid, this);
         psf.on('error', this._showError, this);
         psf.loadPivotedDataStore();
+    },
+    _getGridFilter: function() {
+        var settingsFilterText = this.getSetting('gridFilter'),
+            timeboxScope = this.getContext().getTimeboxScope(),
+            settingsFilter, filters = [];
+        try {
+            settingsFilter = Rally.data.wsapi.Filter.fromQueryString(settingsFilterText);
+            filters = [settingsFilter];
+        } catch (e) {
+            //ok
+        }
+        
+        if (timeboxScope && timeboxScope.isApplicable(this.model)) {
+            filters.push(timeboxScope.getQueryFilter());
+        }
+        return _.compact(filters);
     },
     _showError: function(errorMsg){
         this.logger.log('_showError', errorMsg);
@@ -333,21 +365,6 @@ Ext.define('Rally.technicalservices.Logger',{
         this.logger.log('_getColumns', cols);
         return cols;
     },
-    getOptions: function() {
-        return [
-            {
-                text: 'About...',
-                handler: this._launchInfo,
-                scope: this
-            }
-        ];
-    },
-
-    _launchInfo: function() {
-        if ( this.about_dialog ) { this.about_dialog.destroy(); }
-        this.about_dialog = Ext.create('Rally.technicalservices.InfoLink',{});
-    },
-
     isExternal: function(){
         return typeof(this.getAppId()) == 'undefined';
     },
@@ -457,7 +474,7 @@ Ext.define('Rally.technicalservices.MultiValueComboBox',{
             success: function(value_names) {
 
                 var values = Ext.Array.map(value_names,function(value_name){
-                    return { 'name': value_name, 'value': value_name }
+                    return { 'name': value_name, 'value': value_name };
                 });
 
                 var combobox = this.down('rallycombobox');
@@ -608,7 +625,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
 
     },
     getFilters: function(){
-        return this.gridFilter && this.gridFilter.length > 0 ? Rally.data.wsapi.Filter.fromQueryString(this.gridFilter) : [];
+        return this.gridFilter || [];
     },
     getSorters: function(direction){
 
@@ -648,11 +665,11 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
 
                         //include/disclude none
                         if (includeNone){
-                            allowedValues.push(noneText)
+                            allowedValues.push(noneText);
                         }
                         //include/disclude total
                         if (includeTotal){
-                            allowedValues.push(totalField)
+                            allowedValues.push(totalField);
                         }
 
                         deferred.resolve(allowedValues);
@@ -686,8 +703,6 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
             },
             scope: this
         });
-
-        return deferred;
     },
     fetchCollectionValues: function(records, collectionField){
         var deferred = Ext.create('Deft.Deferred'),
@@ -762,7 +777,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
             yAxisField = this.yAxis.field;
 
         _.each(yValues, function(y){
-            hash[y] = this._initializeRow(yAxisField, y, xAxisFields, includeXTotal)
+            hash[y] = this._initializeRow(yAxisField, y, xAxisFields, includeXTotal);
         },this);
 
 
@@ -806,7 +821,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
                     }
                 } else {
                     if (Ext.Array.contains(yValues, yVal) || yValues.length === 0) {
-                        includedYVals.push(yVal)
+                        includedYVals.push(yVal);
                     }
                 }
 
@@ -1216,7 +1231,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
             Rally.launchApp('2d-matrix-grid', {
                 name:"2D Matrix Grid",
                 parentRepos:"",
-                version:"0.2.1"
+                version:"0.2.2"
             });
 
         });

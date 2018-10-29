@@ -46,7 +46,7 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
 
     },
     getFilters: function(){
-        return this.gridFilter && this.gridFilter.length > 0 ? Rally.data.wsapi.Filter.fromQueryString(this.gridFilter) : [];
+        return this.gridFilter || [];
     },
     getSorters: function(direction){
 
@@ -86,11 +86,11 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
 
                         //include/disclude none
                         if (includeNone){
-                            allowedValues.push(noneText)
+                            allowedValues.push(noneText);
                         }
                         //include/disclude total
                         if (includeTotal){
-                            allowedValues.push(totalField)
+                            allowedValues.push(totalField);
                         }
 
                         deferred.resolve(allowedValues);
@@ -124,8 +124,6 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
             },
             scope: this
         });
-
-        return deferred;
     },
     fetchCollectionValues: function(records, collectionField){
         var deferred = Ext.create('Deft.Deferred'),
@@ -200,7 +198,7 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
             yAxisField = this.yAxis.field;
 
         _.each(yValues, function(y){
-            hash[y] = this._initializeRow(yAxisField, y, xAxisFields, includeXTotal)
+            hash[y] = this._initializeRow(yAxisField, y, xAxisFields, includeXTotal);
         },this);
 
 
@@ -244,7 +242,7 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
                     }
                 } else {
                     if (Ext.Array.contains(yValues, yVal) || yValues.length === 0) {
-                        includedYVals.push(yVal)
+                        includedYVals.push(yVal);
                     }
                 }
 
