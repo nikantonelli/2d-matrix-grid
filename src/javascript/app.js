@@ -9,7 +9,7 @@ Ext.define("2d-matrix-grid", {
     ],
     config: {
         defaultSettings: {
-            modelName: 'defect',
+            modelName: 'Defect',
             xAxisField: 'Severity',
             yAxisField: 'Project',
             xAxisValues: undefined,
