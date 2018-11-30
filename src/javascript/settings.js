@@ -73,6 +73,7 @@ Ext.define('Rally.technicalservices.TwoDGridSettings',{
                     }
                     if (cb.name === 'xAxisField'){
                         this.refreshField(cb.getValue());
+                        this.currentValue = '';
                     }
                 }
             }
@@ -115,6 +116,7 @@ Ext.define('Rally.technicalservices.TwoDGridSettings',{
                     }
                     if (cb.name === 'yAxisField'){
                         this.refreshField(cb.getValue());
+                        this.currentValue = '';
                     }
                 }
             }

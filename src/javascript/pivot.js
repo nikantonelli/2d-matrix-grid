@@ -282,6 +282,8 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
         });
     },
     _getSortedData: function(dataHash, sortField, sortDir, rowLimit, totalText, nameField){
+        var totalData = dataHash[totalText];
+        delete dataHash[totalText];
         var data = _.values(dataHash),
             sortMultiplier = sortDir.toLowerCase() === 'asc' ? -1 : 1,
             sortedData = Ext.Array.sort(data, function(a,b){
@@ -294,6 +296,7 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
                     return -1 * sortMultiplier;
                 return 0;
             });
+        sortedData.push(totalData);
 
         if (rowLimit && rowLimit > 0){
             var truncatedData = Ext.Array.slice(sortedData,0,rowLimit);

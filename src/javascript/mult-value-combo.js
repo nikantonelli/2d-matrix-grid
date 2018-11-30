@@ -94,7 +94,7 @@ Ext.define('Rally.technicalservices.MultiValueComboBox',{
             success: function(value_names) {
 
                 var values = Ext.Array.map(value_names,function(value_name){
-                    return { 'name': value_name, 'value': value_name };
+                    return { 'name': value_name || 'None', 'value': value_name };
                 });
 
                 var combobox = this.down('rallycombobox');

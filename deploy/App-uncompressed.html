@@ -474,7 +474,7 @@ Ext.define('Rally.technicalservices.MultiValueComboBox',{
             success: function(value_names) {
 
                 var values = Ext.Array.map(value_names,function(value_name){
-                    return { 'name': value_name, 'value': value_name };
+                    return { 'name': value_name || 'None', 'value': value_name };
                 });
 
                 var combobox = this.down('rallycombobox');
@@ -861,6 +861,8 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
         });
     },
     _getSortedData: function(dataHash, sortField, sortDir, rowLimit, totalText, nameField){
+        var totalData = dataHash[totalText];
+        delete dataHash[totalText];
         var data = _.values(dataHash),
             sortMultiplier = sortDir.toLowerCase() === 'asc' ? -1 : 1,
             sortedData = Ext.Array.sort(data, function(a,b){
@@ -873,6 +875,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
                     return -1 * sortMultiplier;
                 return 0;
             });
+        sortedData.push(totalData);
 
         if (rowLimit && rowLimit > 0){
             var truncatedData = Ext.Array.slice(sortedData,0,rowLimit);
@@ -983,6 +986,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
                     }
                     if (cb.name === 'xAxisField'){
                         this.refreshField(cb.getValue());
+                        this.currentValue = '';
                     }
                 }
             }
@@ -1025,6 +1029,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
                     }
                     if (cb.name === 'yAxisField'){
                         this.refreshField(cb.getValue());
+                        this.currentValue = '';
                     }
                 }
             }
@@ -1231,7 +1236,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
             Rally.launchApp('2d-matrix-grid', {
                 name:"2D Matrix Grid",
                 parentRepos:"",
-                version:"0.2.3"
+                version:"0.2.4"
             });
 
         });

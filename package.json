@@ -1,7 +1,7 @@
 {
   "_comment": "This file is used by grunt",
   "name": "2d-matrix-grid",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "MIT",
   "repository": "https://github.com/RallyCommunity/2d-matrix-grid",
   "dependencies": {},
