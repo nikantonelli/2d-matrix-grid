@@ -274,8 +274,19 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
         }
 
         var data = this._getSortedData(dataHash, sortField, this.sortDir, this.rowLimit, this.totalText, yAxisField);
+        //Need to create a convert function to work around a bug where
+        //data has . in the property names
+        var modelFields = _.map(fields, function(field) { 
+            return { 
+                name: field, 
+                mapping: false, 
+                convert: function(val, record) {
+                    return record.raw[this.name];
+                } 
+            };
+        });
         return Ext.create('Rally.data.custom.Store',{
-            fields: fields,
+            fields: modelFields,
             data: data,
             remoteSort: false,
             pageSize: data.length 
