@@ -104,14 +104,20 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
     fetchRecords: function(){
         var deferred = Ext.create('Deft.Deferred');
 
-        return Ext.create('Rally.data.wsapi.Store', {
+        var store = Ext.create('Rally.data.wsapi.Store', {
             model: this.modelName,
             fetch: this.getFetchFields(),
             filters: this.getFilters(),
             limit: 'Infinity',
-            sorters: this.getSorters()
-
-        }).load({
+            sorters: this.getSorters(),
+            pageSize: 2000,
+            listeners: {
+                beforeload: function() {
+                    //this.getProxy().getReader().useSimpleAccessors = true;
+                }
+            }
+        });
+        return store.load({
             callback: function(records, operation, success){
                 this.logger.log('fetchRecords load', records, operation, success);
                 var collectionField = this.getCollectionField();
@@ -276,13 +282,14 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
         var data = this._getSortedData(dataHash, sortField, this.sortDir, this.rowLimit, this.totalText, yAxisField);
         //Need to create a convert function to work around a bug where
         //data has . in the property names
+        var me = this;
         var modelFields = _.map(fields, function(field) { 
             return { 
-                name: field, 
+                name: me._getFieldName(field), 
                 mapping: false, 
                 convert: function(val, record) {
-                    return record.raw[this.name];
-                } 
+                    return record.raw[me._getDataName(this.name)];
+                }
             };
         });
         return Ext.create('Rally.data.custom.Store',{
@@ -291,6 +298,12 @@ Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
             remoteSort: false,
             pageSize: data.length 
         });
+    },
+    _getFieldName: function(fieldName) {
+        return fieldName.replace(/\./g, '[dot]').replace(/\"/g, '[quote]');
+    },
+    _getDataName: function(fieldName) {
+        return fieldName.replace(/\[dot\]/g, '.').replace(/\[quote\]/g, '"');
     },
     _getSortedData: function(dataHash, sortField, sortDir, rowLimit, totalText, nameField){
         var totalData = dataHash[totalText];

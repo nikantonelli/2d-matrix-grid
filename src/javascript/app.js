@@ -160,6 +160,9 @@ Ext.define("2d-matrix-grid", {
         });
 
     },
+    _getColumnDataIndex: function(fieldName) {
+        return fieldName.replace(/\./g, '[dot]').replace(/\"/g, '[quote]');
+    },
     _getColumns: function(fields){
         var cols = [],
             yAxisField = this.getYAxisField(),
@@ -179,7 +182,7 @@ Ext.define("2d-matrix-grid", {
 
             cols.push({
                 text: key,
-                dataIndex: key,
+                dataIndex: this._getColumnDataIndex(key),
                 align: align,
                 flex: flex,
                 renderer: function(v,m,r){
@@ -189,7 +192,7 @@ Ext.define("2d-matrix-grid", {
                     return v;
                 }
             });
-        });
+        }, this);
 
         this.logger.log('_getColumns', cols);
         return cols;
