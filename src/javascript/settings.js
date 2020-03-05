@@ -85,7 +85,7 @@ Ext.define('Rally.technicalservices.TwoDGridSettings',{
             fieldLabel: 'Y Axis Field',
             labelWidth: width,
             blackListFields: [],
-            whiteListFields: ['Release','Iteration','Project','ScheduleState','State','Owner','SubmittedBy','Tags','Parent','PortfolioItem','Milestones'],
+            whiteListFields: ['PreliminaryEstimate','Release','Iteration','Project','ScheduleState','State','Owner','SubmittedBy','Tags','Parent','PortfolioItem','Milestones'],
             allowedTypes: ['STRING','RATING'],
             constrained: true,
             bubbleEvents: ['change'],
