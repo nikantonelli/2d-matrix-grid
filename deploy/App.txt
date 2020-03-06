@@ -2,12 +2,26 @@
 <html>
 <head>
     <title>2D Matrix Grid</title>
-
-    <script type="text/javascript" src="/apps/2.1/sdk.js"></script>
-
+    <!--  (c) 2017 CA Technologies.  All Rights Reserved. -->
+    <!--  Build Date: Fri Mar 06 2020 12:23:19 GMT+0000 (Greenwich Mean Time) -->
+    
     <script type="text/javascript">
-        Rally.onReady(function () {
-                /**
+        var APP_BUILD_DATE = "Fri Mar 06 2020 12:23:19 GMT+0000 (Greenwich Mean Time)";
+        var STORY    = "once upon a time...";
+        var BUILDER  = "nikantonelli";
+        var CHECKSUM = 32619490039;
+    </script>
+    
+    <script type="text/javascript" src="/apps/2.1/sdk.js"></script>
+    <!-- our highcharts (needed so that we can add patterns) 
+    <script type="text/javascript" src="/apps/2.1/lib/analytics/analytics-all.js"></script>
+    -->
+    
+    
+    <script type="text/javascript">
+        Rally.onReady(function() {
+             
+/**
  * A link that pops up a version dialog box
  */
 
@@ -147,7 +161,7 @@ Ext.define('Rally.technicalservices.InfoLink',{
     }
 });
 
-                /*
+/*
  */
 Ext.define('Rally.technicalservices.Logger',{
     constructor: function(config){
@@ -169,7 +183,7 @@ Ext.define('Rally.technicalservices.Logger',{
     }
 });
 
-                Ext.define("2d-matrix-grid", {
+Ext.define("2d-matrix-grid", {
     extend: 'Rally.app.App',
     componentCls: 'app',
     logger: new Rally.technicalservices.Logger(),
@@ -381,7 +395,7 @@ Ext.define('Rally.technicalservices.Logger',{
     }
 });
 
-                /*
+/*
  * create a form field thing.
  */
 
@@ -514,7 +528,7 @@ Ext.define('Rally.technicalservices.MultiValueComboBox',{
         return data;
     }
 });
-                
+
 Ext.override(Rally.ui.combobox.FieldComboBox,{
 
     blackListFields: [],
@@ -580,7 +594,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
         return showField;
     }
 });
-                Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
+Ext.define('Rally.technicalservices.data.PivotStoreFactory',{
 
     mixins: {
         observable: 'Ext.util.Observable'
@@ -938,7 +952,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
     }
 });
 
-                Ext.define('Rally.technicalservices.TwoDGridSettings',{
+Ext.define('Rally.technicalservices.TwoDGridSettings',{
     singleton: true,
 
     getFields: function(config){
@@ -1159,7 +1173,7 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
     }
 });
 
-                Ext.define('Rally.technicalservices.WsapiToolbox',{
+Ext.define('Rally.technicalservices.WsapiToolbox',{
     singleton: true,
     fetchWsapiCount: function(model, query_filters){
         var deferred = Ext.create('Deft.Deferred');
@@ -1259,42 +1273,39 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
 
     }
 });
-
-            Rally.launchApp('2d-matrix-grid', {
-                name:"2D Matrix Grid",
-                parentRepos:"",
-                version:"0.2.6"
-            });
-
+            
+               Rally.launchApp('2d-matrix-grid', {
+                   name: '2D Matrix Grid'
+               });
         });
     </script>
-
-
-
+    
     <style type="text/css">
-        .tsinfolink {
-  position: absolute;
-  right: 0px;
-  width: 14px;
-  height: 14px;
-  border-radius: 7px;
-  text-align: center;
-  color: white;
-  background: #C0C0C0;
-  border-style: solid;
-  border-width: 1px;
-  margin-top: 25px;
-  margin-right: 5px;
-  cursor: pointer;
+
+.app {
+}
+.tsinfolink {
+    position:absolute;
+    right:0px;
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    text-align: center;
+    color: white;
+    background: #C0C0C0;
+    border-style: solid;
+    border-width: 1px;
+    margin-top: 25px;
+    margin-right: 5px;
+    cursor: pointer;
 }
 .totalCls {
-  font-weight: bold;
-  color: #666666;
-  font-style: italic;
+    font-weight: bold;
+    color: #666666;
+    font-style: italic;
 }
-
     </style>
+
 </head>
-<body>
-</body>
+<body></body>
 </html>
