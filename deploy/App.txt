@@ -3,13 +3,13 @@
 <head>
     <title>2D Matrix Grid</title>
     <!--  (c) 2017 CA Technologies.  All Rights Reserved. -->
-    <!--  Build Date: Fri Mar 06 2020 12:23:19 GMT+0000 (Greenwich Mean Time) -->
+    <!--  Build Date: Tue Mar 10 2020 18:38:48 GMT+0000 (Greenwich Mean Time) -->
     
     <script type="text/javascript">
-        var APP_BUILD_DATE = "Fri Mar 06 2020 12:23:19 GMT+0000 (Greenwich Mean Time)";
+        var APP_BUILD_DATE = "Tue Mar 10 2020 18:38:48 GMT+0000 (Greenwich Mean Time)";
         var STORY    = "once upon a time...";
         var BUILDER  = "nikantonelli";
-        var CHECKSUM = 32619490039;
+        var CHECKSUM = 32674236614;
     </script>
     
     <script type="text/javascript" src="/apps/2.1/sdk.js"></script>
@@ -997,7 +997,7 @@ Ext.define('Rally.technicalservices.TwoDGridSettings',{
             labelWidth: width,
             labelAlign: 'right',
             blackListFields: [],
-            whiteListFields: ['Release','Iteration','ScheduleState','State'],
+            whiteListFields: ['Release','Iteration','ScheduleState','State', 'PreliminaryEstimate'],
             allowedTypes: ['STRING','RATING'],
             constrained: true,
             bubbleEvents: ['change'],
