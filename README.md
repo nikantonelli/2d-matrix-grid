@@ -3,6 +3,7 @@
 Grid that shows the count of artifacts where the field matches the displayed values for the selected fields on the X and Y Axis.  
 
 ![ScreenShot](/images/2d-matrix-grid.png)
+![ScreenShot](/images/feature-size-by-team.png)
 
 ### App Configuration
 App Settings include:
