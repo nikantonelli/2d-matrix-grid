@@ -297,7 +297,7 @@ Ext.define('Rally.technicalservices.Logger',{
         return vals;
     },
     getXAxisAttributeField: function(){
-        if (this.getXAxisField() === 'State'){
+        if ((this.getXAxisField() === 'State') || (this.getXAxisField() === 'PreliminaryEstimate')){
             var re = new RegExp("^PortfolioItem","i");
             if (re.test(this.getSetting('modelName'))){
                 return "Name";
@@ -1270,30 +1270,6 @@ Ext.override(Rally.ui.combobox.FieldComboBox,{
     </script>
 
 
-
-    <style type="text/css">
-        .tsinfolink {
-  position: absolute;
-  right: 0px;
-  width: 14px;
-  height: 14px;
-  border-radius: 7px;
-  text-align: center;
-  color: white;
-  background: #C0C0C0;
-  border-style: solid;
-  border-width: 1px;
-  margin-top: 25px;
-  margin-right: 5px;
-  cursor: pointer;
-}
-.totalCls {
-  font-weight: bold;
-  color: #666666;
-  font-style: italic;
-}
-
-    </style>
 </head>
 <body>
 </body>

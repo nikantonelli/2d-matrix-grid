@@ -126,7 +126,7 @@ Ext.define("2d-matrix-grid", {
         return vals;
     },
     getXAxisAttributeField: function(){
-        if (this.getXAxisField() === 'State'){
+        if ((this.getXAxisField() === 'State') || (this.getXAxisField() === 'PreliminaryEstimate')){
             var re = new RegExp("^PortfolioItem","i");
             if (re.test(this.getSetting('modelName'))){
                 return "Name";
